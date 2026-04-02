@@ -133852,7 +133852,7 @@ async function fetchUrlAsBuffer(url2) {
     throw new Error(`Failed to fetch ${url2}`);
   return import_node_buffer4.Buffer.from(response.body);
 }
-async function findPythonVersion(version3, architecture, allowPreReleases, updateEnvironment = true) {
+async function findPythonVersion(version3, architecture, allowPreReleases, freethreaded, updateEnvironment = true) {
   let pythonVersion = "";
   if (isPyPyVersion(version3)) {
     const installed = await findPyPyVersion(
@@ -133874,7 +133874,7 @@ async function findPythonVersion(version3, architecture, allowPreReleases, updat
       updateEnvironment,
       false,
       allowPreReleases,
-      false
+      freethreaded
     );
     pythonVersion = installed.version;
     info(`Successfully set up ${installed.impl} (${pythonVersion})`);
@@ -133999,6 +133999,7 @@ async function run() {
   const pythonVersion = resolveVersionInput()[0] || "3.x";
   const updateEnvironment = getBooleanInput("update-python");
   const allowPythonPreReleases = getBooleanInput("allow-python-prereleases");
+  const freethreaded = getBooleanInput("freethreaded");
   const cmdArgs = ["-"];
   if (getBooleanInput("prerelease"))
     cmdArgs.push("--prerelease");
@@ -134006,7 +134007,7 @@ async function run() {
     cmdArgs.push("--version", pdmVersion);
   cmdArgs.push("-o", "install-output.json");
   try {
-    const installedPython = await findPythonVersion(pythonVersion, arch4, allowPythonPreReleases, updateEnvironment);
+    const installedPython = await findPythonVersion(pythonVersion, arch4, allowPythonPreReleases, freethreaded, updateEnvironment);
     if (import_node_process5.default.platform === "linux") {
       if (import_node_process5.default.arch === "x64") {
         exportVariable("LD_PRELOAD", "/lib/x86_64-linux-gnu/libgcc_s.so.1");
