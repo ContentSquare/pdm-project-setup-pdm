@@ -18,7 +18,7 @@
     "@actions/core": "^3.0.0",
     "@actions/exec": "^3.0.0",
     "@actions/glob": "^0.6.1",
-    "got": "^14.0.0",
+    "got": "^14.6.6",
     "semver": "^7.5.4",
     "setup-python": "actions/setup-python"
   },
